@@ -7,20 +7,24 @@
       indicateProgress: true
       invalidFormatMessage: 'Invalid file format'
       template: """
-        <ul>
+        <div class="row">
           <% for(var i=0; i<files.length; i++){ %>
-            <li>
-              <% if(files[i].resource_type == "raw") { %>
-                <div class="raw-file"></div>
-              <% } else { %>
-                <img
-                  src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "format": 'jpg', "crop": 'fill', "width": 75, "height": 75 }) %>"
-                  alt="" width="75" height="75" />
-              <% } %>
-              <a href="#" data-remove="<%= files[i].public_id %>">Remove</a>
-            </li>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                <% if(files[i].resource_type == "raw") { %>
+                  <div class="raw-file"></div>
+                <% } else { %>
+                  <img
+                    src="<%= $.cloudinary.url(files[i].public_id, { "version": files[i].version, "format": 'jpg', "crop": 'fill', "width": 300, "height": 300, "dpr": "auto" }) %>"
+                    alt="" class="img-responsive" />
+                <% } %>
+                <div class="caption">
+                  <a href="#" class="btn btn-default" data-remove="<%= files[i].public_id %>">Remove</a>
+                </div>
+              </div>
+            </div>
           <% } %>
-        </ul>
+        </div>
       """
       render: (files) ->
         $.attachinary.Templating.template(@template, files: files)
